@@ -2,6 +2,7 @@ var assert = require('assert');
 var express = require('express');
 var superagent = require('superagent');
 var wagner = require('wagner-core');
+var mongoose = require('mongoose');
 var URL_ROOT = 'http://localhost:3000';
 
 describe('Category API', function() {
@@ -21,6 +22,7 @@ describe('Category API', function() {
 
   after(function() {
     server.close();
+    mongoose.connection.close();
   });
 
   beforeEach(function(done) {

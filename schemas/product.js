@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Category = require('./category');
-var fx = require('../fx.js');
+var fx = require('../fx');
 
 var productSchema = {
   name: { type: String, required: true },
@@ -9,19 +9,44 @@ var productSchema = {
     amount: {
       type: Number,
       required: true,
-      set: function(value) {
-        this.internal.approximatePriceUSD = value / (fx() [this.price.currency] || 1);
-        return value;
+      set: function(v) {
+        this.internal.approximatePriceUSD =
+          v / (fx()[this.price.currency] || 1);
+        return v;
       }
     },
     currency: {
-      type:   String,
+      type: String,
       enum: ['USD', 'EUR', 'GBP'],
-      required: true
+      required: true,
+      set: function(v) {
+        this.internal.approximatePriceUSD =
+          this.price.amount / (fx()[v] || 1);
+        return v;
+      }
     }
   },
-  category: Category.categorySchema
+  category: Category.categorySchema,
+  internal: {
+    approximatePriceUSD: Number
+  }
 };
 
-module.exports = new mongoose.Schema(productSchema);
+var schema = new mongoose.Schema(productSchema);
+
+var currencySymbols = {
+  'USD': '$',
+  'EUR': '€',
+  'GBP': '£'
+};
+
+schema.virtual('displayPrice').get(function() {
+  return currencySymbols[this.price.currency] +
+    '' + this.price.amount;
+});
+
+schema.set('toObject', { virtuals: true });
+schema.set('toJSON', { virtuals: true });
+
+module.exports = schema;
 module.exports.productSchema = productSchema;
