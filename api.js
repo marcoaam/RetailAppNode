@@ -17,7 +17,7 @@ module.exports = function(wagner) {
             status(status.NOT_FOUND).
             json({ error: 'Not found' });
         }
-        res.json({ category: caategory});
+        res.json({ category: category});
       })
     };
   }));
@@ -33,7 +33,7 @@ module.exports = function(wagner) {
             status(status.INTERNAL_SERVER_ERROR).
             json({ error: error.toString() });
         }
-        res.json({ category: categories});
+        res.json({ categories: categories});
       });
     };
   }));
