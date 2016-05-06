@@ -1,5 +1,6 @@
 var express = require('express');
 var wagner = require('wagner-core');
+var _ = require('underscore');
 
 require('./models')(wagner, _);
 
