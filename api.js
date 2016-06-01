@@ -6,8 +6,6 @@ module.exports = function(wagner) {
   var api = express.Router();
   api.use(bodyparser.json());
 
-  api.use(bodyparser.json());
-
   var handleOne = function(property, res, error, result) {
       if(error) {
         return res.
