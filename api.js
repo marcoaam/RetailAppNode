@@ -108,19 +108,21 @@ module.exports = function(wagner) {
   }));
 
   api.put('me/cart', wagner.invoke(function(User) {
-    return fuction(req, res) {
+    return function(req, res) {
       try {
         var cart = req.body.data.cart;
       } catch(e) {
-        return res.status(status.BAD_REQUEST).
-        json({ error: 'No cart specified' });
+        return res.
+          status(status.BAD_REQUEST).
+          json({ error: 'No cart specified!' });
       }
 
       req.user.data.cart = cart;
       req.user.save(function(error, user) {
-        if(error) {
-          return res.status(status.INTERNAL_SERVER_ERROR).
-                  json({ error: error.toString() });
+        if (error) {
+          return res.
+            status(status.INTERNAL_SERVER_ERROR).
+            json({ error: error.toString() });
         }
         return res.json({ user: user });
       });

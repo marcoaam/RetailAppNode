@@ -94,7 +94,7 @@ describe('User API', function() {
       {
         _id: PRODUCT_ID,
         name: 'Product 1',
-        category: category,
+        category: { _id: 'Electronics', ancestors: ['Electronics'] },
         price: {
           amount: 300,
           currency: 'USD'
